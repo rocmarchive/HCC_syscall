@@ -81,6 +81,16 @@ define linkonce_odr spir_func void @__hsail_barrier() #3 {
 ; Function Attrs: convergent nounwind
 declare void @llvm.amdgcn.s.barrier() #4
 
+; S_SENDMSG 1 = interrupt
+; Function Attrs: alwaysinline nounwind
+define linkonce_odr spir_func void @__hsa_sendmsg(i32 inreg %m) #5 {
+  tail call void @llvm.amdgcn.s.sendmsg(i32 1, i32 %m) #5
+  ret void
+}
+
+; Function Attrs: alwaysinline nounwind
+declare void @llvm.amdgcn.s.sendmsg(i32, i32) #5
+
 ; Function Attrs: alwaysinline nounwind readnone
 define linkonce_odr spir_func double @__hsail_abs_f64(double) #2 {
   %2 = call double @llvm.fabs.f64(double %0)
