@@ -81,6 +81,13 @@ define linkonce_odr spir_func void @__hsail_barrier() #3 {
 ; Function Attrs: convergent nounwind
 declare void @llvm.amdgcn.s.barrier() #4
 
+; Function Attrs: alwaysinline nounwind convergent
+define linkonce_odr spir_func void @__hsa_fence() #2 {
+  call void @llvm.amdgcn.s.waitcnt(i32 0) #2 ; Wait for everything
+  ret void
+}
+declare void @llvm.amdgcn.s.waitcnt(i32) #2
+
 ;S_GETREG: 31 << 11 | 0 << 6 | 4 = 0xf804 (63492)
 ; Function Attrs: alwaysinline nounwind convergent
 define linkonce_odr spir_func i32 @__hsa_gethwid() #0 {
