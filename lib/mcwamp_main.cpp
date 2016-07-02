@@ -110,6 +110,8 @@ void ldflags(void) {
     }
 
     std::cout << " -lc++ -lc++abi -ldl -lpthread ";
+    if (hcc_mode && std::string(CMAKE_HSA_AMDGPU) == "ON")
+      std::cout << "-lhcsc ";
     if (bolt_rewrite_mode) {
         std::cout << "-lampBolt.runtime.clang ";
     }

@@ -12,6 +12,13 @@ endif (HCC_RUNTIME_DEBUG)
 add_config_executable(clamp-config mcwamp_main.cpp)
 add_config_executable(hcc-config mcwamp_main.cpp)
 
+if (HAS_HSA AND HSA_USE_AMDGPU_BACKEND)
+  add_kernel_library(hcsc hc_syscalls.cpp)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hcsc.bc DESTINATION lib)
+  install(TARGETS hcsc DESTINATION lib)
+  add_dependencies(llvm-link hcsc.bc)
+endif (HAS_HSA AND HSA_USE_AMDGPU_BACKEND)
+
 ####################
 # C++AMP runtime (mcwamp)
 ####################

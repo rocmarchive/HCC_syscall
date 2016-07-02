@@ -36,6 +36,7 @@ include (EnsureLLVMisPresent)
 include (EnsureCLANGisPresent)
 include (EnsureHLCisPresent)
 include (EnsureHSAILASMisPresent)
+include (ExtractKernel)
 include (SetupCBE)
 include (SetupPromote)
 include (SetupEraseNonkernel)
@@ -117,6 +118,13 @@ find_library(OPENCL_LIBRARY OpenCL)
 if (NOT APPLE AND NOT OPENCL_LIBRARY)
   MESSAGE("OpenCL library not found. Use -DOPENCL_LIBRARY_DIR=<path_to_libOpenCL.so>.")
 endif(NOT APPLE AND NOT OPENCL_LIBRARY)
+
+# display hsakmt information
+MESSAGE("")
+MESSAGE("HSAKMT INFORMATION:")
+MESSAGE("HSAKMT_HEADER_DIR = '${HSAKMT_HEADER_DIR}', actually found at: ${HSAKMT_HEADER}")
+MESSAGE("HSAKMT_LIBRARY_DIR = '${HSAKMT_LIBRARY_DIR}', actually found at: ${HSAKMT_LIBRARY}")
+MESSAGE("")
 
 # display OpenCL information
 MESSAGE("")
@@ -459,6 +467,21 @@ install(DIRECTORY ${CLANG_BIN_DIR}/lib
         PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
 
 if (HAS_HSA)
+
+#HSAKMT is now required for HSA target
+find_path(HSAKMT_HEADER hsakmt.h PATHS ${HSAKMT_HEADER_DIR} ${ROCM_ROOT}/include ${HSA_ROOT}/include NO_DEFAULT_PATH)
+find_path(HSAKMT_HEADER hsakmt.h)
+
+if (NOT HSAKMT_HEADER)
+  MESSAGE(FATAL_ERROR "HSAKMT header not found. Use -DHSA_HEADER_DIR=<path_to_hsa.h>.")
+endif (NOT HSAKMT_HEADER)
+
+
+find_library(HSAKMT_LIBRARY hsakmt PATHS ${HSAKMT_LIBRARY_DIR} ${ROCM_ROOT}/lib ${HSA_ROOT}/lib NO_DEFAULT_PATH)
+find_library(HSAKMT_LIBRARY hsakmt)
+if (NOT HSAKMT_LIBRARY)
+  MESSAGE("HSAKMT library not found. Use -DHSAKMT_LIBRARY_DIR=<path_to_libhsa-runtime64.so>.")
+endif (NOT HSAKMT_LIBRARY)
 
 # build HLC
 

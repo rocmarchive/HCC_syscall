@@ -9,6 +9,8 @@
 #define CMAKE_HSA_ROOT         "@HSA_HEADER@"
 #define CMAKE_HSA_LIB          "@HSA_ROOT@/lib"
 
+#define CMAKE_HSA_AMDGPU       "@HSA_USE_AMDGPU_BACKEND@"
+
 #define CMAKE_LIBHSAIL_LIB     "@LIBHSAIL_LIBRARY@"
 #define CMAKE_OPENCL_INC       "@OPENCL_HEADER@/.."
 #define CMAKE_OPENCL_LIB       "@OPENCL_LIBRARY@"

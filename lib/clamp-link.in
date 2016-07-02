@@ -503,7 +503,7 @@ ret=0
 if [ -n "$LINK_KERNEL_ARGS" ]; then
 
   # combine kernel sections together
-  $LINK $LINK_KERNEL_ARGS | $OPT -always-inline - -o $TEMP_DIR/kernel.bc
+  $LINK $LINK_KERNEL_ARGS $BINDIR/../../lib/hcsc.bc | $OPT -always-inline - -o $TEMP_DIR/kernel.bc
   
   # lower to SPIR
   if [ $LOWER_OPENCL == 1 ]; then
