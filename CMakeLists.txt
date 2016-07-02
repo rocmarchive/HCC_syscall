@@ -46,6 +46,7 @@ else()
 endif()
 
 include (MCWAMP)
+include (ExtractKernel)
 
 # Regression test
 set(LLVM_SRC "${PROJECT_SOURCE_DIR}/compiler")
@@ -101,6 +102,20 @@ set_target_properties(hsa-runtime64 PROPERTIES
   INTERFACE_SYSTEM_INCLUDE_DIRECTORIES "${HSA_HEADER}"
 )
 
+#HSAKMT is now required for HSA target
+find_path(HSAKMT_HEADER hsakmt.h PATHS ${HSAKMT_HEADER_DIR} ${ROCM_ROOT}/include ${HSA_ROOT}/include NO_DEFAULT_PATH)
+find_path(HSAKMT_HEADER hsakmt.h)
+
+if (NOT HSAKMT_HEADER)
+  MESSAGE(FATAL_ERROR "HSAKMT header not found. Use -DHSA_HEADER_DIR=<path_to_hsa.h>.")
+endif (NOT HSAKMT_HEADER)
+
+find_library(HSAKMT_LIBRARY hsakmt PATHS ${HSAKMT_LIBRARY_DIR} ${ROCM_ROOT}/lib ${HSA_ROOT}/lib NO_DEFAULT_PATH)
+find_library(HSAKMT_LIBRARY hsakmt)
+if (NOT HSAKMT_LIBRARY)
+	MESSAGE(FATAL_ERROR "HSAKMT library not found. Use -DHSAKMT_LIBRARY_DIR=<path_to_libhsa-runtime64.so>.")
+endif (NOT HSAKMT_LIBRARY)
+
 ################
 # Detect ROCm Device Libs
 ################
@@ -140,6 +155,14 @@ if (HCC_INTEGRATE_ROCDL)
 else (HCC_INTEGRATE_ROCDL)
   MESSAGE("ROCM_DEVICE_LIB_DIR = ${ROCM_DEVICE_LIB_DIR}, actually found at: ${ROCM_DEVICE_LIB}")
 endif (HCC_INTEGRATE_ROCDL)
+
+# display hsakmt information
+MESSAGE("")
+MESSAGE("HSAKMT INFORMATION:")
+MESSAGE("HSAKMT_HEADER_DIR = '${HSAKMT_HEADER_DIR}', actually found at: ${HSAKMT_HEADER}")
+MESSAGE("HSAKMT_LIBRARY_DIR = '${HSAKMT_LIBRARY_DIR}', actually found at: ${HSAKMT_LIBRARY}")
+MESSAGE("")
+
 
 ################
 # Detect CodeXL Activity Logger

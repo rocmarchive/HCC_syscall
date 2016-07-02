@@ -12,6 +12,10 @@ set( LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR} )
 set( INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR} )
 set( CONFIG_PACKAGE_INSTALL_DIR ${LIB_INSTALL_DIR}/cmake/hcc )
 
+add_kernel_library(hcsc hc_syscalls.cpp)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hcsc.bc DESTINATION lib)
+install(TARGETS hcsc DESTINATION ${LIB_INSTALL_DIR})
+
 ####################
 # C++AMP runtime (mcwamp)
 ####################

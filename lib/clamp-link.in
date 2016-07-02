@@ -388,8 +388,15 @@ ret=0
 # only do kernel lowering if there are objects given
 if [ ${#LINK_KERNEL_ARGS[@]} != 0 ]; then
 
+  # Installed folder structure is different from build folder structure
+  if [ -f "$BINDIR/../../lib/hcsc.bc" ]; then
+    HCSC_LIB="$BINDIR/../../lib/hcsc.bc"
+  else
+    HCSC_LIB="$BINDIR/../lib/hcsc.bc"
+  fi
+
   # combine kernel sections together
-  $LINK "${LINK_KERNEL_ARGS[@]}" | $OPT -always-inline - -o $TEMP_DIR/kernel.bc
+  $LINK "${LINK_KERNEL_ARGS[@]}" "$HCSC_LIB" | $OPT -always-inline - -o $TEMP_DIR/kernel.bc
 
   # lower to GCN ISA
   if [ $VERBOSE == 1 ]; then

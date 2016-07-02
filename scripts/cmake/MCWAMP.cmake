@@ -89,7 +89,7 @@ macro(add_mcwamp_library_hc_am name )
   add_library( ${name} SHARED ${ARGN} )
   amp_target(${name})
   # LLVM and Clang shall be compiled beforehand
-  add_dependencies(${name} llvm-link opt clang rocdl)
+  add_dependencies(${name} llvm-link opt clang rocdl hcsc.bc)
   # add HSA libraries
   target_link_libraries(${name} PUBLIC hsa-runtime64)
   target_link_libraries(${name} PRIVATE pthread)

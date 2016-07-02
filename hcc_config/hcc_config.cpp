@@ -161,6 +161,10 @@ void ldflags(void) {
     // backtrace support
     std::cout << " -lunwind";
 
+    // syscall support
+    if (hcc_mode)
+      std::cout << " -lhcsc";
+
     if (const char *p = getenv("TEST_CPU"))
         if (p == std::string("ON"))
         std::cout << " -lmcwamp_atomic";
