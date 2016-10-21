@@ -12,9 +12,10 @@ class syscalls {
 
 	kfd_sc *syscalls_ = NULL;
 	size_t elements_ = 0;
+	const bool wave_control_;
 
 	syscalls(const syscalls&) = delete;
-	syscalls();
+	syscalls(bool use_wave_control);
 	~syscalls();
 
 	kfd_sc &get_slot() const [[hc]];

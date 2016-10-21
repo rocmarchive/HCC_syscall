@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <thread>
 #include <hsakmt.h>
 #include <linux/kfd_sc.h>
@@ -6,13 +7,31 @@
 #include <hc.hpp>
 #include <hc_syscalls.h>
 
+#include <unistd.h>
+#include <fcntl.h>
+
+static const char *module_param =
+	"/sys/module/amdkfd/parameters/sc_use_wave_management";
+
+static bool use_wave_control()
+{
+	::std::fstream f(module_param, ::std::ios_base::in);
+	char setting = 'x';
+	f >> setting;
+	if (setting != 'Y' && setting != 'N') {
+		::std::cerr << "ERROR: Failed to determine wave control mode\n";
+		exit(1);
+	}
+	return setting == 'Y';
+}
+
 syscalls& syscalls::get() [[cpu]] // [[hc]]
 {
-	static syscalls instance;
+	static syscalls instance(use_wave_control());
 	return instance;
 }
 
-syscalls::syscalls()
+syscalls::syscalls(bool use_wave_control): wave_control_(use_wave_control)
 {
 	void *sc_area = NULL;
 	HSAuint32 elements = 0;
@@ -111,7 +130,7 @@ int syscalls::send_common(kfd_sc &slot, int sc, const arg_array &args) [[hc]]
 	// Make sure the status update is visible before issuing interrupt
 	// These are scalar, so they get executed only once per wave.
 	__hsa_fence();
-	if ((sc & KFD_SC_NORET_FLAG) != 0)
+	if ((sc & KFD_SC_NORET_FLAG) != 0 || !wave_control_)
 		__hsa_sendmsg(0);
 	else
 		__hsa_sendmsghalt(0);
