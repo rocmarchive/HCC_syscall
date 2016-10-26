@@ -95,6 +95,32 @@ define linkonce_odr spir_func i32 @__hsa_gethwid() #0 {
   ret i32 %1
 }
 
+declare void @llvm.amdgcn.s.dcache.inv() #5
+
+; Function Attrs: alwaysinline nounwind
+define linkonce_odr spir_func void @__hsa_dcache_inv() #5
+{
+  tail call void @llvm.amdgcn.s.dcache.inv() #5
+  ret void
+}
+
+declare void @llvm.amdgcn.buffer.wbinvl1.vol() #5
+
+; Function Attrs: alwaysinline nounwind
+define linkonce_odr spir_func void @__hsa_vcache_wbinvl1_vol() #5
+{
+  tail call void @llvm.amdgcn.buffer.wbinvl1.vol() #5
+  ret void
+}
+
+declare void @llvm.amdgcn.buffer.wbinvl1() #5
+
+; Function Attrs: alwaysinline nounwind
+define linkonce_odr spir_func void @__hsa_vcache_wbinvl1() #5
+{
+  tail call void @llvm.amdgcn.buffer.wbinvl1() #5
+  ret void
+}
 
 ; S_SENDMSG 1 = interrupt
 ; Function Attrs: alwaysinline nounwind
