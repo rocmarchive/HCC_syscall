@@ -40,6 +40,7 @@ void cxxflags(void) {
 
     // Common options
     std::cout << " -std=c++amp -stdlib=libc++";
+    std::cout << " -I" LIBCXX_INC_DIR;
 
     // clamp
     if (build_mode) {
@@ -83,6 +84,7 @@ void ldflags(void) {
 
     // Common options
     std::cout << " -std=c++amp";
+    std::cout << " -L" LIBCXX_LIB_DIR << " -Wl,--rpath=" << LIBCXX_LIB_DIR;
 
     if (build_mode) {
         std::cout << " -L" CMAKE_AMPCL_LIB_DIR;

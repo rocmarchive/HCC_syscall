@@ -100,7 +100,8 @@ endmacro(add_mcwamp_executable name )
 macro(add_config_executable name )
   CMAKE_FORCE_CXX_COMPILER("${PROJECT_BINARY_DIR}/compiler/bin/clang++" MCWAMPCC)
   set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-  set(CMAKE_CXX_FLAGS "-std=c++11" )
+  #  set(CMAKE_CXX_FLAGS "-std=c++11" )
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I${GTEST_INC_DIR} -I${LIBCXX_INC_DIR} -I${MCWAMP_INC_DIR} -stdlib=libc++ -std=c++11" )
   add_executable( ${name} ${ARGN} )
 
   # LLVM and Clang shall be compiled beforehand

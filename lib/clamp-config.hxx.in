@@ -11,6 +11,9 @@
 
 #define CMAKE_HSA_AMDGPU       "@HSA_USE_AMDGPU_BACKEND@"
 
+#define LIBCXX_INC_DIR         "@LIBCXX_INC_DIR@"
+#define LIBCXX_LIB_DIR         "@LIBCXX_LIB_DIR@"
+
 #define CMAKE_LIBHSAIL_LIB     "@LIBHSAIL_LIBRARY@"
 #define CMAKE_OPENCL_INC       "@OPENCL_HEADER@/.."
 #define CMAKE_OPENCL_LIB       "@OPENCL_LIBRARY@"
