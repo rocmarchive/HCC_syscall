@@ -1,3 +1,7 @@
+This version of the HCC compiler includes modification to support system call invocation from the GPU code.
+The original design can be found at:
+https://arxiv.org/abs/1705.06965
+
 HCC : An open source C++ compiler for heterogeneous devices
 
 Introduction
