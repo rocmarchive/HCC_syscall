@@ -10,6 +10,10 @@ The project is based on LLVM+CLANG. For more information, please visit the
 
 [https://github.com/RadeonOpenCompute/hcc/wiki][1]
 
+This branch includes modifications to support system call invocation from the GPU code. The original design can be found at:
+[https://arxiv.org/abs/1705.06965][1]
+
+
 Download HCC
 ============
 The project now employs git submodules to manage external components it depends 
